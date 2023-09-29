@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import markdown2
+from . import util
 
 from . import util
 
@@ -9,7 +11,9 @@ def index(request):
     })
 
 def showEntry(request, title):
+    markdownContent = util.get_entry(title)
+    html = markdown2.markdown(markdownContent)
     return render(request, "encyclopedia/showEntry.html", {
-        "title": title
+        "html": html
     })
 
