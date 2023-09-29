@@ -12,8 +12,15 @@ def index(request):
 
 def showEntry(request, title):
     markdownContent = util.get_entry(title)
-    html = markdown2.markdown(markdownContent)
-    return render(request, "encyclopedia/showEntry.html", {
+
+    if markdownContent != None:
+        html = markdown2.markdown(markdownContent)
+        return render(request, "encyclopedia/showEntry.html", {
         "html": html
-    })
+        })
+    else:
+        html = "Requested page was not found"
+        return render(request, "encyclopedia/showEntry.html", {
+        "html": html
+        })
 
