@@ -1,11 +1,15 @@
 from django.shortcuts import render
+from django import forms
 import markdown2
 from . import util
 
-from . import util
-
-
 def index(request):
+    if request.method == "POST":
+        searched = request.POST['q']
+        return render(request, "encyclopedia/search.html", {
+            "searched": searched
+        })
+    
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
@@ -23,4 +27,5 @@ def showEntry(request, title):
         return render(request, "encyclopedia/showEntry.html", {
         "html": html
         })
+
 
