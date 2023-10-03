@@ -1,10 +1,17 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-{{ title }}
 {% endblock %}
 
 {% block body %}
-<h1>New Page</h1>
-{{ form }}
+{% if errorMessage == "<h1>This title already exists</h1>" %}
+{{ errorMessage | safe }}
+{% else %}
+<h1>Create a new encyclopedia</h1>
+{% endif %}
+<form action="{% url 'newPage' %}" method="post">
+    {{ form }}
+    {% csrf_token %}
+    <input type="submit" value="submit">
+</form>
 {% endblock %}

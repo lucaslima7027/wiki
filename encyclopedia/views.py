@@ -5,7 +5,7 @@ from . import util
 
 class newPageForm(forms.Form):
     title = forms.CharField(label="title")
-    mdContent = forms.CharField(widget=forms.Textarea(attrs={"rows":"5"}), label="content")
+    mdContent = forms.CharField(widget=forms.Textarea(attrs={"rows":"5"}), label="mdContent")
 
 def index(request):
     if request.method == "POST":
@@ -33,6 +33,22 @@ def showEntry(request, title):
         })
 
 def newPage(request):
+    if request.method == "POST":
+        form = newPageForm(request.POST)
+        if form.is_valid():
+            newTitle = form.cleaned_data["title"]
+            newContent = form.cleaned_data["mdContent"]
+            if util.get_entry(newTitle) == None:
+                util.save_entry(newTitle, newContent)
+                return redirect("/" + newTitle)
+            
+            else:
+                errorMessage = "<h1>This title already exists</h1>"
+                return render(request, "encyclopedia/newPage.html", {
+                    "errorMessage": errorMessage
+                })
+
+
     return render(request, "encyclopedia/newPage.html", {
         "form": newPageForm()
     })
