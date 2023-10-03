@@ -1,9 +1,17 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-<h1>You searched for</h1>
 {% endblock %}
 
 {% block body %}
-    {{ searched}}
+{% if searchResults|length == 0 %}
+<h1>Sorry, we didn't find anything with {{ searched }}</h1>
+
+{% else %}
+<h1>Results for {{ searched }}</h1>
+{% for entry in searchResults %}
+<li><a href="{{ entry }}">{{ entry }}</a></li>
+
+{% endfor %}
+{% endif %}
 {% endblock %}

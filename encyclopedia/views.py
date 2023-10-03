@@ -8,6 +8,15 @@ def index(request):
         searched = request.POST['q']
         if checkEntry(searched) != 'Requested page was not found':
             return redirect("/" + searched)
+        
+        else:
+           searchResults = []
+           for entry in util.list_entries():
+               if searched in util.get_entry(entry):
+                   searchResults.append(entry)
+           return render(request, "encyclopedia/search.html", {
+               "searchResults": searchResults,
+               'searched': searched} )
 
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
