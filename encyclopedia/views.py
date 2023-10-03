@@ -3,6 +3,10 @@ from django import forms
 import markdown2
 from . import util
 
+class newPageForm(forms.Form):
+    title = forms.CharField(label="title")
+    mdContent = forms.CharField(widget=forms.Textarea(attrs={"rows":"5"}), label="content")
+
 def index(request):
     if request.method == "POST":
         searched = request.POST['q']
@@ -29,7 +33,10 @@ def showEntry(request, title):
         })
 
 def newPage(request):
-    return render(request, "encyclopedia/newPage.html")
+    return render(request, "encyclopedia/newPage.html", {
+        "form": newPageForm()
+    })
+    
     
 def checkEntry(title):
     markdownContent = util.get_entry(title)
