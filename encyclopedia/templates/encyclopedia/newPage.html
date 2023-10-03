@@ -4,10 +4,9 @@
 {% endblock %}
 
 {% block body %}
-{% if errorMessage == "<h1>This title already exists</h1>" %}
-{{ errorMessage | safe }}
-{% else %}
 <h1>Create a new encyclopedia</h1>
+{% if errorMessage != "" %}
+{{ errorMessage | safe }}
 {% endif %}
 <form action="{% url 'newPage' %}" method="post">
     {{ form }}

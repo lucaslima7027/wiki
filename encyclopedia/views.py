@@ -4,7 +4,7 @@ import markdown2
 from . import util
 
 class newPageForm(forms.Form):
-    title = forms.CharField(label="Title")
+    Title = forms.CharField(label="Title")
     mdContent = forms.CharField(widget=forms.Textarea(attrs={"rows":"5"}), label="Content")
 
 def index(request):
@@ -33,20 +33,22 @@ def showEntry(request, title):
         })
 
 def newPage(request):
+    errorMessage = ""
     if request.method == "POST":
         form = newPageForm(request.POST)
         if form.is_valid():
             newTitle = form.cleaned_data["Title"]
-            newContent = form.cleaned_data["Content"]
+            newContent = form.cleaned_data["mdContent"]
             if util.get_entry(newTitle) == None:
                 content = f"# {newTitle}\n{newContent}"
                 util.save_entry(newTitle, content)
                 return redirect("/" + newTitle)
             
             else:
-                errorMessage = "<h1>This title already exists</h1>"
+                errorMessage = "<h2>This title already exists</h2>"
                 return render(request, "encyclopedia/newPage.html", {
-                    "errorMessage": errorMessage
+                    "errorMessage": errorMessage,
+                    "form": form
                 })
 
 
