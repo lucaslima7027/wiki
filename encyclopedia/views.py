@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django import forms
 import markdown2
 from . import util
+import random
 
 class newPageForm(forms.Form):
     Title = forms.CharField(label="Title")
@@ -55,6 +56,10 @@ def newPage(request):
     return render(request, "encyclopedia/newPage.html", {
         "form": newPageForm()
     })
+
+def randomPage(request):
+    ramdomEntry = random.choice(util.list_entries())
+    return redirect("/" + ramdomEntry)
     
     
 def checkEntry(title):
