@@ -27,6 +27,9 @@ def showEntry(request, title):
     return render(request, "encyclopedia/showEntry.html", {
         "html": html
         })
+
+def newPage(request):
+    return render(request, "encyclopedia/newPage.html")
     
 def checkEntry(title):
     markdownContent = util.get_entry(title)
