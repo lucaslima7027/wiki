@@ -9,6 +9,7 @@
 
 <form action="" method="post">
     {{ form }}
+    {% csrf_token %}
     <button type="submit">Save</button>
 </form>
 {% endblock %}

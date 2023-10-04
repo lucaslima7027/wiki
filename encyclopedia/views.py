@@ -66,6 +66,13 @@ def randomPage(request):
     return redirect("/" + ramdomEntry)
 
 def editEntry(request, title):
+    if request.method == "POST":
+        editedForm = editEntryForm(request.POST)
+        if editedForm.is_valid():
+            editedContent = editedForm.cleaned_data["entryContent"]
+            util.save_entry(title, editedContent)
+            return redirect("/" + title)
+
     mdToEdit = util.get_entry(title)
     editForm = editEntryForm({'entryContent': mdToEdit})
     return render(request, "encyclopedia/editEntry.html", {
