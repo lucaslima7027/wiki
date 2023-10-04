@@ -8,6 +8,9 @@ class newPageForm(forms.Form):
     Title = forms.CharField(label="Title")
     mdContent = forms.CharField(widget=forms.Textarea(attrs={"rows":"5"}), label="Content")
 
+class editEntryForm(forms.Form):
+    entryContent = forms.CharField(widget=forms.Textarea(attrs={"rows":"5"}), label="Content")
+
 def index(request):
     if request.method == "POST":
         searched = request.POST['q']
@@ -30,7 +33,8 @@ def index(request):
 def showEntry(request, title):
     html = checkEntry(title)
     return render(request, "encyclopedia/showEntry.html", {
-        "html": html
+        "html": html,
+        "title": title,
         })
 
 def newPage(request):
@@ -60,7 +64,12 @@ def newPage(request):
 def randomPage(request):
     ramdomEntry = random.choice(util.list_entries())
     return redirect("/" + ramdomEntry)
+
+def editEntry(request, title):
     
+    return render(request, "encyclopedia/editEntry.html", {
+        
+        })
     
 def checkEntry(title):
     markdownContent = util.get_entry(title)

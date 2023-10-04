@@ -6,4 +6,9 @@
 
 {% block body %}
     {{ html | safe}}
+    <form action="{% url 'editEntry' title=title %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Edit Encyclopedia</button>
+    </form>
+    
 {% endblock %}
